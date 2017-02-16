@@ -63,7 +63,6 @@ function calculerSousTotal(prix, quantite) {
 }
 
 function genererPanier() {
-	panierContainer.style.display = "block";
 	panierContainer.textContent = "";
 	prixTotal = 0;
 	carte.plats.forEach(function(plat) {
@@ -105,6 +104,13 @@ function genererPanier() {
 	var boutonTotal = document.createElement('button');
 	boutonTotal.textContent = 'PAYER';
 	panierContainer.appendChild(boutonTotal);
+
+	if (prixTotal !== 0) {
+			panierContainer.style.display = "block";
+	}
+	else {
+		panierContainer.style.display = "none";
+	}
 }
 
 
