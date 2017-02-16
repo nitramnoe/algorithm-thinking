@@ -112,7 +112,7 @@ function diminuerQuantite(){
 
   var idPlat = this.dataset.id;
   var platSupp = carte.plats.filter(function(item){
-    return item.id = idPlat;
+    return item.id === idPlat;
   });
   platSupp.selected -= 1;
   genererPanier();
@@ -124,11 +124,12 @@ function augmenterQuantite(){
   var idPlat = this.dataset.id;
 
   var platAdd = carte.plats.filter(function(item){
-    return item.id = idPlat;
+      console.log(item.id==idPlat);
+    return item.id == idPlat;
   });
-  platAdd[0].selected += 1;
+  platAdd.selected += 1;
 
   genererPanier();
-    console.log(platAdd[0]);
+
 
 }
