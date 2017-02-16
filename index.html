@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="style.css" media="screen" title="no title">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css" media="screen" title="no title">
 </head>
+
 <body>
-  <div class="container-plats">
-  </div>
-  <div id="panier-container"></div>
-  <script src="main.js"></script>
+	<div id="achat-container">
+		<h4>Etat du compte en banque :</h4>
+		<p>Montant restant :
+			<span id="montant-restant"></span>$
+		</p>
+		<div class="bank-account-container">
+			<div class="bank-account-status">
+			</div>
+		</div>
+		<button type="button" name="button">Ok</button>
+	</div>
+
+	<!-- <div id="dark-filter"> -->
+		<div class="container-plats">
+		</div>
+		<div id="panier-container"></div>
+	<!-- </div> -->
+
+
+	<script src="main.js"></script>
 </body>
+
 </html>

@@ -1,4 +1,8 @@
 var containerPlats = document.querySelector('.container-plats');
+var confirmPaiement = document.getElementById("achat-container");
+var bankAccountStatus = document.querySelector(".bank-account-status");
+var closeConfirmPaiement = document.querySelector("#achat-container button");
+var montantRestant = document.querySelector("#montant-restant");
 
 var carte = {
 	plats: [{
@@ -103,6 +107,7 @@ function genererPanier() {
 
 	var boutonTotal = document.createElement('button');
 	boutonTotal.textContent = 'PAYER';
+	boutonTotal.addEventListener("click", payerPanier);
 	panierContainer.appendChild(boutonTotal);
 
 	if (prixTotal !== 0) {
@@ -134,3 +139,29 @@ function augmenterQuantite() {
 	platAdd[0].selected += 1;
 	genererPanier();
 }
+
+
+var montant = 1100;
+
+function videAccount() {
+	if (montant > 0) {
+		montant -= 10;
+	}
+	montantRestant.textContent = montant;
+}
+
+setInterval(videAccount, 100);
+
+function payerPanier() {
+	confirmPaiement.style.display = "block";
+	bankAccountStatus.style.animationName = "emptyAccount";
+}
+
+closeConfirmPaiement.addEventListener("click", function(){
+	confirmPaiement.style.display = "none";
+	carte.plats.forEach(function(plat) {
+		plat.selected = 0;
+		prixTotal = 0;
+		genererPanier();
+	});
+});
