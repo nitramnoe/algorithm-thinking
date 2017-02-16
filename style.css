@@ -1,0 +1,26 @@
+.container-plats {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.plat {
+	border: 1px solid rgb(213, 213, 213);
+	padding: 10px;
+	border-radius: 2px;
+}
+
+#panier-container {
+	width: 50%;
+	border: 1px solid rgb(213, 213, 213);
+	display: none;
+	padding: 20px;
+	margin: 20px 0;
+}
+
+.plat-panier {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid rgb(228, 228, 228);
+}

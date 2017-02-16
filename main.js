@@ -1,135 +1,130 @@
 var containerPlats = document.querySelector('.container-plats');
 
-var carte =  {
-plats: [
-  {
-   id: 1,
-   nom: 'plat1',
-   description: 'blablabla 1',
-   price: '12€',
-   selected: 0
-  },
-  {
-   id: 2,
-   nom: 'plat2',
-   description: 'blablabla 2',
-   price: '15€',
-   selected: 0
-  },
-  {
-   id: 3,
-   nom: 'plat3',
-   description: 'blablabla 3',
-   price: '10€',
-   selected: 0
-  }
-]
-}
+var carte = {
+	plats: [{
+			id: 1,
+			nom: 'plat1',
+			description: 'blablabla 1',
+			price: '12€',
+			selected: 0
+		},
+		{
+			id: 2,
+			nom: 'plat2',
+			description: 'blablabla 2',
+			price: '15€',
+			selected: 0
+		},
+		{
+			id: 3,
+			nom: 'plat3',
+			description: 'blablabla 3',
+			price: '10€',
+			selected: 0
+		}
+	]
+};
 
-carte.plats.forEach(function(plat){
+carte.plats.forEach(function(plat) {
 
-  var nouveauPlat = document.createElement('div');
-  nouveauPlat.classList.add('plat');
-  containerPlats.appendChild(nouveauPlat);
+	var nouveauPlat = document.createElement('div');
+	nouveauPlat.classList.add('plat');
+	containerPlats.appendChild(nouveauPlat);
 
-  var nouveauNom = document.createElement('h3');
-  nouveauNom.classList.add('nom-plat');
-  nouveauNom.textContent = plat.nom;
-  nouveauPlat.appendChild(nouveauNom);
+	var nouveauNom = document.createElement('h3');
+	nouveauNom.classList.add('nom-plat');
+	nouveauNom.textContent = plat.nom;
+	nouveauPlat.appendChild(nouveauNom);
 
-  var nouvelleDescription = document.createElement('p');
-  nouvelleDescription.classList.add('description-plat');
-  nouvelleDescription.textContent = plat.description;
-  nouveauPlat.appendChild(nouvelleDescription);
+	var nouvelleDescription = document.createElement('p');
+	nouvelleDescription.classList.add('description-plat');
+	nouvelleDescription.textContent = plat.description;
+	nouveauPlat.appendChild(nouvelleDescription);
 
-  var nouveauPrix = document.createElement('p');
-  nouveauPrix.classList.add('prix-plat');
-  nouveauPrix.textContent = plat.price;
-  nouveauPlat.appendChild(nouveauPrix);
+	var nouveauPrix = document.createElement('p');
+	nouveauPrix.classList.add('prix-plat');
+	nouveauPrix.textContent = plat.price;
+	nouveauPlat.appendChild(nouveauPrix);
 
-  var nouveauBouton = document.createElement('button');
-  nouveauBouton.classList.add('bouton-plat');
-  nouveauBouton.textContent = "Commander";
-  nouveauBouton.dataset.id = plat.id;
-  nouveauBouton.addEventListener('click', augmenterQuantite);
-  nouveauPlat.appendChild(nouveauBouton);
+	var nouveauBouton = document.createElement('button');
+	nouveauBouton.classList.add('bouton-plat');
+	nouveauBouton.textContent = "Commander";
+	nouveauBouton.dataset.id = plat.id;
+	nouveauBouton.addEventListener('click', augmenterQuantite);
+	nouveauPlat.appendChild(nouveauBouton);
 
-})
+});
 
 var prixTotal = 0;
 var panierContainer = document.getElementById('panier-container');
 
-function calculerSousTotal(prix, quantite){
-  return prix * quantite;
+function calculerSousTotal(prix, quantite) {
+	return prix * quantite;
 }
 
-function genererPanier(){
+function genererPanier() {
+	panierContainer.style.display = "block";
+	panierContainer.textContent = "";
+	prixTotal = 0;
+	carte.plats.forEach(function(plat) {
 
-  panierContainer.textContent = "";
+		if (plat.selected > 0) {
+			var nouveauPlatPanier = document.createElement('div');
+			nouveauPlatPanier.classList.add('plat-panier');
+			panierContainer.appendChild(nouveauPlatPanier);
 
-  carte.plats.forEach(function(plat){
+			var nomPlatPanier = document.createElement('h3');
+			nomPlatPanier.textContent = plat.nom;
+			nouveauPlatPanier.appendChild(nomPlatPanier);
 
-    if(plat.selected > 0){
+			var prixPanier = document.createElement('p');
+			prixPanier.textContent = plat.price;
+			nouveauPlatPanier.appendChild(prixPanier);
 
-      var nouveauPlatPanier = document.createElement('div');
-      panierContainer.appendChild(nouveauPlatPanier);
+			var quantitePanier = document.createElement('p');
+			quantitePanier.textContent = plat.selected;
+			nouveauPlatPanier.appendChild(quantitePanier);
 
-      var nomPlatPanier = document.createElement('h3');
-      nomPlatPanier.textContent = plat.nom;
-      nouveauPlatPanier.appendChild(nomPlatPanier);
+			var sousTotalPanier = document.createElement('p');
+			sousTotalPanier.textContent = calculerSousTotal(parseFloat(plat.price), plat.selected) + "$";
+			nouveauPlatPanier.appendChild(sousTotalPanier);
+			prixTotal += calculerSousTotal(parseFloat(plat.price), plat.selected);
 
-      var quantitePanier = document.createElement('p');
-      quantitePanier.textContent = plat.selected;
-      nouveauPlatPanier.appendChild(quantitePanier);
+			var boutonSupprimer = document.createElement('button');
+			boutonSupprimer.dataset.id = plat.id;
+			boutonSupprimer.textContent = "Supprimer";
+			boutonSupprimer.addEventListener('click', diminuerQuantite);
+			nouveauPlatPanier.appendChild(boutonSupprimer);
+		}
+	});
 
-      var sousTotalPanier = document.createElement('p');
-      sousTotalPanier.textContent = calculerSousTotal(parseInt(plat.prix), plat.selected);
-      nouveauPlatPanier.appendChild(sousTotalPanier);
-      prixTotal += calculerSousTotal(parseInt(plat.prix), plat.selected);
+	var totalPanier = document.createElement('p');
+	totalPanier.textContent = "Total : " + prixTotal + "$";
+	panierContainer.appendChild(totalPanier);
 
-      var boutonSupprimer = document.createElement('button');
-      boutonSupprimer.dataset.id = plat.id;
-      boutonSupprimer.textContent = "Supprimer";
-      boutonSupprimer.addEventListener('click', diminuerQuantite);
-      nouveauPlatPanier.appendChild(boutonSupprimer);
-
-    }
-
-  });
-
-  var totalPanier = document.createElement('p');
-  totalPanier.textContent = prixTotal + "$";
-  panierContainer.appendChild(totalPanier);
-
-  var boutonTotal = document.createElement('button');
-  boutonTotal.textContent = 'PAYER';
-  panierContainer.appendChild(boutonTotal);
-
-  console.log("carte :" + carte.plats[0].selected);
+	var boutonTotal = document.createElement('button');
+	boutonTotal.textContent = 'PAYER';
+	panierContainer.appendChild(boutonTotal);
 }
 
-function diminuerQuantite(){
 
-  var idPlat = this.dataset.id;
-  var platSupp = carte.plats.filter(function(item){
-    return item.id === idPlat;
-  });
-  platSupp.selected -= 1;
-  genererPanier();
-
+function diminuerQuantite() {
+	var idPlat = this.dataset.id;
+	function egaliteId(item) {
+		return item.id == idPlat;
+	}
+	var platSupp = carte.plats.filter(egaliteId);
+	platSupp[0].selected -= 1;
+	genererPanier();
 }
 
-function augmenterQuantite(){
+function augmenterQuantite() {
+	var idPlat = this.dataset.id;
 
-  var idPlat = this.dataset.id;
-
-  var platAdd = carte.plats.filter(function(item){
-      console.log(item.id==idPlat);
-    return item.id == idPlat;
-  });
-  platAdd.selected += 1;
-
-  genererPanier();
-
-
+	function egaliteId(item) {
+		return item.id == idPlat;
+	}
+	var platAdd = carte.plats.filter(egaliteId);
+	platAdd[0].selected += 1;
+	genererPanier();
 }
