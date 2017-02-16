@@ -51,6 +51,84 @@ carte.plats.forEach(function(plat){
   nouveauBouton.classList.add('bouton-plat');
   nouveauBouton.textContent = "Commander";
   nouveauBouton.dataset.id = plat.id;
+  nouveauBouton.addEventListener('click', augmenterQuantite);
   nouveauPlat.appendChild(nouveauBouton);
 
 })
+
+var prixTotal = 0;
+var panierContainer = document.getElementById('panier-container');
+
+function calculerSousTotal(prix, quantite){
+  return prix * quantite;
+}
+
+function genererPanier(){
+
+  panierContainer.textContent = "";
+
+  carte.plats.forEach(function(plat){
+
+    if(plat.selected > 0){
+
+      var nouveauPlatPanier = document.createElement('div');
+      panierContainer.appendChild(nouveauPlatPanier);
+
+      var nomPlatPanier = document.createElement('h3');
+      nomPlatPanier.textContent = plat.nom;
+      nouveauPlatPanier.appendChild(nomPlatPanier);
+
+      var quantitePanier = document.createElement('p');
+      quantitePanier.textContent = plat.selected;
+      nouveauPlatPanier.appendChild(quantitePanier);
+
+      var sousTotalPanier = document.createElement('p');
+      sousTotalPanier.textContent = calculerSousTotal(parseInt(plat.prix), plat.selected);
+      nouveauPlatPanier.appendChild(sousTotalPanier);
+      prixTotal += calculerSousTotal(parseInt(plat.prix), plat.selected);
+
+      var boutonSupprimer = document.createElement('button');
+      boutonSupprimer.dataset.id = plat.id;
+      boutonSupprimer.textContent = "Supprimer";
+      boutonSupprimer.addEventListener('click', diminuerQuantite);
+      nouveauPlatPanier.appendChild(boutonSupprimer);
+
+    }
+
+  });
+
+  var totalPanier = document.createElement('p');
+  totalPanier.textContent = prixTotal + "$";
+  panierContainer.appendChild(totalPanier);
+
+  var boutonTotal = document.createElement('button');
+  boutonTotal.textContent = 'PAYER';
+  panierContainer.appendChild(boutonTotal);
+
+  console.log("carte :" + carte.plats[0].selected);
+}
+
+function diminuerQuantite(){
+
+  var idPlat = this.dataset.id;
+  var platSupp = carte.plats.filter(function(item){
+    return item.id = idPlat;
+  });
+  platSupp.selected -= 1;
+  genererPanier();
+
+}
+
+function augmenterQuantite(){
+
+  var idPlat = this.dataset.id;
+
+  var platAdd = carte.plats.filter(function(item){
+    return item.id = idPlat;
+  });
+  platAdd[0].selected += 1;
+
+  genererPanier();
+    console.log(platAdd[0]);
+
+}
